@@ -1,7 +1,7 @@
 import Navbar from "@/app/_components/navbar";
 import { Button } from "@/app/_components/ui/button";
 import { Input } from "@/app/_components/ui/input";
-import { Search, Scissors } from "lucide-react";
+import { Search } from "lucide-react";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import Image from "next/image";
 import { db } from "@/app/_lib/prisma";
@@ -12,9 +12,16 @@ import {
   AvatarImage,
   AvatarFallback,
 } from "@/app/_components/ui/avatar";
+import Footer from "./_components/footer";
+import quickSearchOptions from "./_constants/quickSearchOptions";
 
 const Home = async () => {
-  const barbershops = await db.barbershop.findMany({});
+  const barbershops = await db.barbershop.findMany();
+
+  const popularBarbershops = await db.barbershop.findMany({
+    orderBy: { name: "desc" },
+  });
+
   return (
     <div>
       {/* HEADER */}
@@ -29,26 +36,32 @@ const Home = async () => {
         </div>
 
         {/* SEARCH BAR */}
-        <div className="flex items-center gap-2 px-6 mb-6">
+        <div className="flex items-center gap-2 px-6 mt-4">
           <Input placeholder="Buscar..." aria-label="Buscar" />
           <Button size="icon" className="w-10" aria-label="Pesquisar">
             <Search className="h-4 w-4" />
           </Button>
         </div>
 
-        {/* CARDS FROM SEARCH BAR */}
-        <div className="px-6">
-          <Card className="w-fit rounded-lg">
-            <CardContent className="flex flex-row items-center gap-2 w-fit py-2 px-3 text-sm font-semibold">
-              <Scissors size={15} />
-              <p>Cabelo</p>
-            </CardContent>
-          </Card>
+        {/* QUICK SEARCH */}
+        <div className="px-6 flex flex-col mt-2">
+          <div className="flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+            {quickSearchOptions.map(({ icon: Icon, title }) => (
+              <Button
+                variant="secondary"
+                key={title}
+                className="flex items-center gap-2"
+              >
+                <Icon size={10} />
+                {title}
+              </Button>
+            ))}
+          </div>
         </div>
 
         {/* BANNER */}
-        <div className="px-6">
-          <div className="relative mt-6 h-[150px] w-full">
+        <div className="px-6 mt-6">
+          <div className="relative mt-4 h-[150px] w-full">
             <Image
               alt="Agende nos melhores com FSW Barber"
               src="/banner01.png"
@@ -64,8 +77,8 @@ const Home = async () => {
       {/* BODY */}
       <section>
         {/* BOOKING*/}
-        <div className="px-6">
-          <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+        <div className="px-6 mt-6">
+          <h2 className="mb-2 text-xs font-bold uppercase text-gray-400">
             Agendamentos
           </h2>
           <Card className="p-0">
@@ -94,8 +107,8 @@ const Home = async () => {
           </Card>
         </div>
         {/* BARBERSHOPS */}
-        <div className="px-6 flex flex-col mt-6 mb-6">
-          <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+        <div className="px-6 flex flex-col mt-6">
+          <h2 className="mb-2 text-xs font-bold uppercase text-gray-400">
             Recomendados
           </h2>
           <div className="flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
@@ -104,7 +117,20 @@ const Home = async () => {
             ))}
           </div>
         </div>
+        {/* POPULARS */}
+        <div className="px-6 flex flex-col mt-6">
+          <h2 className="mb-2 text-xs font-bold uppercase text-gray-400">
+            Populares
+          </h2>
+          <div className="flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+            {popularBarbershops.map((barbershop) => (
+              <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+            ))}
+          </div>
+        </div>
       </section>
+      {/* FOOTER */}
+      <Footer />
     </div>
   );
 };
