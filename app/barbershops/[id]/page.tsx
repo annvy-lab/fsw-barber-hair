@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Button } from "@/app/_components/ui/button";
 import Link from "next/link";
 import { ChevronLeft, MenuIcon, MapPin, Star } from "lucide-react";
+import ServiceItem from "@/app/_components/service-item";
 
 interface BarbershopPageProps {
   params: { id: string };
@@ -11,6 +12,9 @@ interface BarbershopPageProps {
 const BarbershopPage = async ({ params }: BarbershopPageProps) => {
   const barbershop = await db.barbershop.findUnique({
     where: { id: params.id },
+    include: {
+      services: true,
+    },
   });
 
   if (!barbershop) {
@@ -82,8 +86,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
         <div className="flex flex-col gap-2 p-6 border-b border-solid">
           <h1 className="text-2xl line-clamp-1 font-bold">{barbershop.name}</h1>
           <h2 className="flex items-center text-sm gap-2">
-            <MapPin size={18} className="text-primary" />{" "}
-            {barbershop.address}
+            <MapPin size={18} className="text-primary" /> {barbershop.address}
           </h2>
           <h2 className="flex items-center text-sm gap-2">
             <Star size={18} className="fill-primary text-primary" /> 5,0 (568
@@ -107,11 +110,17 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
             Serviços
           </h2>
           <div className="flex flex-col gap-4">
-
-          {/* {.map((barbershop) => (
-              <ServiceItem key={barbershop.id} barbershop={barbershop} />
-              ))} */}
-              </div>
+            {barbershop.services.map((service) => (
+              <ServiceItem key={service.id} service={service} />
+            ))}
+          </div>
+        </div>
+        {/* CONTACT */}
+        <div className="flex flex-col gap-2 p-6 border-b border-solid">
+          <h2 className="mb-2 text-sm font-bold uppercase text-gray-400">
+            Contato
+          </h2>
+          <div className="flex flex-col gap-4"></div>
         </div>
       </section>
     </div>
