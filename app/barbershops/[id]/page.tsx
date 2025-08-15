@@ -2,9 +2,12 @@ import { db } from "@/app/_lib/prisma";
 import Image from "next/image";
 import { Button } from "@/app/_components/ui/button";
 import Link from "next/link";
-import { ChevronLeft, MenuIcon, MapPin, Star } from "lucide-react";
+import { ChevronLeft, MenuIcon, MapPin, Star, Smartphone } from "lucide-react";
 import ServiceItem from "@/app/_components/service-item";
+import CopyPhoneButton from "@/app/_components/copy-phone-button";
 
+//TODO: Add social media icons in contact info;
+//TODO: Add map card after contact info;
 interface BarbershopPageProps {
   params: { id: string };
 }
@@ -70,7 +73,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
             asChild
             className="absolute top-6 left-6"
           >
-            <Link href={"/"}>
+            <Link href={"/#barbershops"}>
               <ChevronLeft />
             </Link>
           </Button>
@@ -94,7 +97,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
           </h2>
         </div>
         {/* DESCRIPTION */}
-        <div className="flex flex-col gap-2 p-6 border-b border-solid">
+        <div className="flex flex-col gap-1 p-6 border-b border-solid">
           <h2 className="mb-2 text-sm font-bold uppercase text-gray-400">
             Sobre nós
           </h2>
@@ -116,11 +119,23 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
           </div>
         </div>
         {/* CONTACT */}
-        <div className="flex flex-col gap-2 p-6 border-b border-solid">
+        <div className="flex flex-col gap-2 p-6 pb-15">
           <h2 className="mb-2 text-sm font-bold uppercase text-gray-400">
             Contato
           </h2>
-          <div className="flex flex-col gap-4"></div>
+          <div className="flex flex-col gap-3">
+            {barbershop.phones.map((phone, index) => (
+              <div
+                key={phone ?? index}
+                className="flex items-center gap-2 justify-between"
+              >
+                <p className="flex items-center gap-2 text-sm">
+                  <Smartphone size={18} className="text-primary" /> {phone}
+                </p>
+                <CopyPhoneButton phone={phone} />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>

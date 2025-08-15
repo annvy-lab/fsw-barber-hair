@@ -34,7 +34,11 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
               <span className="text-xs">R$ </span>
               {service.price.toString()}
             </h3>
-            <Button variant="secondary" className="text-xs rounded-full">
+            <Button
+              size={"sm"}
+              variant="secondary"
+              className="text-xs rounded-full"
+            >
               <ClockFading className="text-primary" />
               Agendar
             </Button>

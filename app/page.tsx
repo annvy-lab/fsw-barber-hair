@@ -107,7 +107,7 @@ const Home = async () => {
           </Card>
         </div>
         {/* BARBERSHOPS */}
-        <div className="px-6 flex flex-col mt-6">
+        <div id="barbershops" className="px-6 flex flex-col mt-6">
           <h2 className="mb-2 text-xs font-bold uppercase text-gray-400">
             Recomendados
           </h2>
@@ -129,8 +129,6 @@ const Home = async () => {
           </div>
         </div>
       </section>
-      {/* FOOTER */}
-      <Footer />
     </div>
   );
 };
