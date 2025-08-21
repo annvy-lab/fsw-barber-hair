@@ -13,6 +13,7 @@ import {
   AvatarFallback,
 } from "@/app/_components/ui/avatar";
 import quickSearchOptions from "./_constants/quickSearchOptions";
+import SearchBar from "./_components/search";
 
 const Home = async () => {
   const barbershops = await db.barbershop.findMany();
@@ -35,12 +36,7 @@ const Home = async () => {
         </div>
 
         {/* SEARCH BAR */}
-        <div className="flex items-center gap-2 px-6 mt-4">
-          <Input placeholder="Buscar..." aria-label="Buscar" />
-          <Button size="icon" className="w-10" aria-label="Pesquisar">
-            <Search className="h-4 w-4" />
-          </Button>
-        </div>
+        <SearchBar />
 
         {/* QUICK SEARCH */}
         <div className="px-6 flex flex-col mt-2">

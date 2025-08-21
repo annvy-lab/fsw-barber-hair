@@ -17,6 +17,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "./ui/dialog";
 import Link from "next/link";
 import Image from "next/image";
@@ -152,15 +153,41 @@ const SideBarSheet = () => {
 
       {data?.user && (
         <SheetFooter className="w-full flex flex-col justify-start gap-4 py-4">
-          <Button
-            onClick={HandleSignOut}
-            variant="ghost"
-            className="w-full justify-start font-light"
-            type="button"
-          >
-            <LogOut className="h-4 w-4 mr-2 text-primary" />
-            logout
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="ghost"
+                className="w-full justify-start font-light"
+                type="button"
+              >
+                <LogOut className="h-4 w-4 mr-2 text-primary" />
+                logout
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="w-fit rounded-lg p-8">
+              <DialogHeader className="space-y-2 whitespace-nowrap">
+                <DialogTitle>Sair</DialogTitle>
+                <DialogDescription>
+                  Você tem certeza que deseja sair da sua conta?
+                </DialogDescription>
+              </DialogHeader>
+              <div className="w-full flex justify-end gap-2 mt-1">
+                <DialogClose className="w-3/6">
+                  <Button variant="outline" className="font-bold w-full">
+                    Cancelar
+                  </Button>
+                </DialogClose>
+                <Button
+                  onClick={HandleSignOut}
+                  variant="destructive"
+                  className="font-bold w-3/6"
+                  aria-label="Sair"
+                >
+                  Sair
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
         </SheetFooter>
       )}
     </SheetContent>

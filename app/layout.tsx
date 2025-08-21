@@ -22,33 +22,36 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className="dark">
+    <html lang="pt-BR" className="dark m-0 p-0 min-h-full">
       <body className={`${nunito.variable} font-sans antialiased`}>
         <AuthProvider>
-          {children}
-          <Toaster
-            position="top-center"
-            toastOptions={{
-              duration: 3000,
-              style: {
-                background: "hsl(228, 9%, 23%)",
-                color: "#fff",
-                borderRadius: "9999px",
-                padding: "8px 13px",
-                fontSize: "14px",
-              },
-            }}
-          />
-          <footer className="w-full mt-10">
-            <Card className="rounded-none">
-              <CardContent className="px-5 py-6">
-                <p className="text-sm text-gray-400">
-                  © 2023 Copyright <span className="font-bold">FSW Barber</span>
-                </p>
-              </CardContent>
-            </Card>
-          </footer>
+          <div className="flex flex-col h-full">
+            <div className="flex-1">{children}</div>
+            <footer className="w-full mt-10 self-end">
+              <Card className="rounded-none">
+                <CardContent className="px-5 py-6">
+                  <p className="text-sm text-gray-400">
+                    © 2023 Copyright -{" "}
+                    <span className="font-bold">FSW Barber | AnvyLab</span>
+                  </p>
+                </CardContent>
+              </Card>
+            </footer>
+          </div>
         </AuthProvider>
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: "hsl(228, 9%, 23%)",
+              color: "#fff",
+              borderRadius: "9999px",
+              padding: "8px 13px",
+              fontSize: "14px",
+            },
+          }}
+        />
       </body>
     </html>
   );
