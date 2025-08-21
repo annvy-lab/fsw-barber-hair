@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { Card, CardContent } from "./_components/ui/card";
+import AuthProvider from "./_providers/auth";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -23,29 +24,31 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="dark">
       <body className={`${nunito.variable} font-sans antialiased`}>
-        {children}
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            duration: 3000,
-            style: {
-              background: "hsl(228, 9%, 23%)",
-              color: "#fff",
-              borderRadius: "9999px",
-              padding: "8px 13px",
-              fontSize: "14px",
-            },
-          }}
-        />
-        <footer className="w-full mt-10">
-          <Card className="rounded-none">
-            <CardContent className="px-5 py-6">
-              <p className="text-sm text-gray-400">
-                © 2023 Copyright <span className="font-bold">FSW Barber</span>
-              </p>
-            </CardContent>
-          </Card>
-        </footer>
+        <AuthProvider>
+          {children}
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              duration: 3000,
+              style: {
+                background: "hsl(228, 9%, 23%)",
+                color: "#fff",
+                borderRadius: "9999px",
+                padding: "8px 13px",
+                fontSize: "14px",
+              },
+            }}
+          />
+          <footer className="w-full mt-10">
+            <Card className="rounded-none">
+              <CardContent className="px-5 py-6">
+                <p className="text-sm text-gray-400">
+                  © 2023 Copyright <span className="font-bold">FSW Barber</span>
+                </p>
+              </CardContent>
+            </Card>
+          </footer>
+        </AuthProvider>
       </body>
     </html>
   );
