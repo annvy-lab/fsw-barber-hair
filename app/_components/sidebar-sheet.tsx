@@ -3,7 +3,16 @@ import { House, CalendarDays, LogOut, LogIn } from "lucide-react";
 import quickSearchOptions from "../_constants/quickSearchOptions";
 import { Button } from "./ui/button";
 import { SheetContent, SheetHeader, SheetTitle, SheetFooter, SheetClose } from "./ui/sheet";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 import Link from "next/link";
+import Image from "next/image";
 
 const SideBarSheet = () => {
   return (
@@ -11,18 +20,43 @@ const SideBarSheet = () => {
       <SheetHeader className="w-full items-center justify-start text-start">
         <SheetTitle className="self-start mt-[-0.7rem]">Menu</SheetTitle>
         {/* USER NOT LOGGED IN */}
-                <div className="w-full flex flex-col items-center gap-4 mb-4 border-b border-solid py-4 pt-2">
+        <div className="w-full flex flex-col items-center gap-4 mb-4 border-b border-solid py-4 pt-2">
           <div className="w-full flex items-start flex-col justify-start text-start">
-            <h3 className="text-md font-bold line-clamp-1">Olá, realize login</h3>
+            <h3 className="text-md font-bold line-clamp-1">
+              Olá, realize login
+            </h3>
             <p className="mt-[-0.1rem] text-sm text-foreground/70 line-clamp-2 font-normal">
-              para aproveitar todos os recursos do app! 
+              para aproveitar todos os recursos do app!
             </p>
           </div>
           <div className="w-full flex items-center justify-center">
-            <Button  className="w-full">
-                <LogIn/>
-                LogIn
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="w-full">
+                  <LogIn />
+                  LogIn
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="w-fit rounded-lg p-8">
+                <DialogHeader className="space-y-2 whitespace-nowrap">
+                  <DialogTitle>Faça login na plataforma</DialogTitle>
+                  <DialogDescription>
+                    Conecte-se usando sua conta Google
+                  </DialogDescription>
+                </DialogHeader>
+                <Button variant="outline" className="font-bold">
+                  <div className="relative w-4 h-4">
+                    <Image
+                      src="/google-logo.svg"
+                      alt="Fazer login com Google"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  Google
+                </Button>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
 
@@ -43,7 +77,11 @@ const SideBarSheet = () => {
 
       <div className="w-full flex flex-col justify-start gap-2 border-b border-solid py-4">
         <SheetClose asChild>
-          <Button asChild variant={"secondary"} className="w-full justify-start font-light">
+          <Button
+            asChild
+            variant={"secondary"}
+            className="w-full justify-start font-light"
+          >
             <Link href="/">
               <House className="h-4 w-4 mr-2" />
               início
