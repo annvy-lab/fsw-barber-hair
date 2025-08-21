@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ChevronLeft, MenuIcon, MapPin, Star, Smartphone } from "lucide-react";
 import ServiceItem from "@/app/_components/service-item";
 import CopyPhoneButton from "@/app/_components/copy-phone-button";
+import SideBarSheet from "@/app/_components/sidebar-sheet";
+import { Sheet, SheetTrigger } from "@/app/_components/ui/sheet";
 
 //TODO: Add social media icons in contact info;
 //TODO: Add map card after contact info;
@@ -20,6 +22,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
     },
   });
 
+  // { If barbershop is not found }
   if (!barbershop) {
     return (
       <section>
@@ -40,13 +43,18 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
               <ChevronLeft />
             </Link>
           </Button>
-          <Button
-            size="icon"
-            variant="secondary"
-            className="absolute top-6 right-6"
-          >
-            <MenuIcon />
-          </Button>
+          <Sheet>
+            <SheetTrigger>
+              <Button
+                size="icon"
+                variant="secondary"
+                className="absolute top-6 right-6"
+              >
+                <MenuIcon />
+              </Button>
+            </SheetTrigger>
+            <SideBarSheet />
+          </Sheet>
         </div>
         <div className="flex flex-col gap-2 p-6 border-b border-solid">
           <h1 className="text-2xl line-clamp-1 font-bold">
@@ -77,13 +85,18 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
               <ChevronLeft />
             </Link>
           </Button>
-          <Button
-            size="icon"
-            variant="secondary"
-            className="absolute top-6 right-6"
-          >
-            <MenuIcon />
-          </Button>
+          <Sheet>
+            <SheetTrigger>
+              <Button
+                size="icon"
+                variant="secondary"
+                className="absolute top-6 right-6"
+              >
+                <MenuIcon />
+              </Button>
+            </SheetTrigger>
+            <SideBarSheet />
+          </Sheet>
         </div>
         {/* TITLE */}
         <div className="flex flex-col gap-2 p-6 border-b border-solid">

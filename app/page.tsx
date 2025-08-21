@@ -12,7 +12,6 @@ import {
   AvatarImage,
   AvatarFallback,
 } from "@/app/_components/ui/avatar";
-import Footer from "./_components/footer";
 import quickSearchOptions from "./_constants/quickSearchOptions";
 
 const Home = async () => {

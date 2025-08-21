@@ -8,7 +8,7 @@ export default function CopyPhoneButton({ phone }: { phone: string }) {
   const handleCopyPhone = async () => {
     try {
       await navigator.clipboard.writeText(phone);
-      toast("Copiado para a área de transferência");
+      toast.success("Copiado para a área de transferência");
     } catch {
       toast("Não foi possível copiar o número.");
     }

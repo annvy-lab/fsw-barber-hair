@@ -32,7 +32,8 @@ export default function RootLayout({
               background: "hsl(228, 9%, 23%)",
               color: "#fff",
               borderRadius: "9999px",
-              padding: "10px 16px",
+              padding: "8px 13px",
+              fontSize: "14px",
             },
           }}
         />
