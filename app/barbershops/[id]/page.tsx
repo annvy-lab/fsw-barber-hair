@@ -86,7 +86,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
             </Link>
           </Button>
           <Sheet>
-            <SheetTrigger>
+            <SheetTrigger asChild>
               <Button
                 size="icon"
                 variant="secondary"

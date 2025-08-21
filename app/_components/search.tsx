@@ -47,7 +47,7 @@ const SearchBar = () => {
             <FormItem className="flex-1">
               <FormControl>
                 <Input
-                  placeholder="Buscar..."
+                  placeholder="Buscar estabelecimento, serviços ou endereços..."
                   aria-label="Buscar"
                   {...field}
                 />
@@ -57,7 +57,12 @@ const SearchBar = () => {
           )}
         />
 
-        <Button type="submit" size="icon" className="w-10" aria-label="Pesquisar">
+        <Button
+          type="submit"
+          size="icon"
+          className="w-10"
+          aria-label="Pesquisar"
+        >
           <Search className="h-4 w-4" />
         </Button>
       </form>

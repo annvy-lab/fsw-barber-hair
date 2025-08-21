@@ -1,7 +1,5 @@
 import Navbar from "@/app/_components/navbar";
 import { Button } from "@/app/_components/ui/button";
-import { Input } from "@/app/_components/ui/input";
-import { Search } from "lucide-react";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import Image from "next/image";
 import { db } from "@/app/_lib/prisma";
@@ -14,6 +12,8 @@ import {
 } from "@/app/_components/ui/avatar";
 import quickSearchOptions from "./_constants/quickSearchOptions";
 import SearchBar from "./_components/search";
+import Title from "./_components/title";
+import Link from "next/link";
 
 const Home = async () => {
   const barbershops = await db.barbershop.findMany();
@@ -27,13 +27,7 @@ const Home = async () => {
       {/* HEADER */}
       <section id="header">
         <Navbar />
-
-        <div className="px-6 my-6 gap-3">
-          <h2 className="text-2xl">
-            Olá, <span className="font-bold">Usuário!</span>
-          </h2>
-          <p>Sábado, 09 de agosto</p>
-        </div>
+        <Title />
 
         {/* SEARCH BAR */}
         <SearchBar />
@@ -47,8 +41,16 @@ const Home = async () => {
                 key={title}
                 className="flex items-center gap-2"
               >
-                <Icon size={10} />
-                {title}
+                <Link
+                  href={{
+                    pathname: "/barbershops",
+                    query: { search: title },
+                  }}
+                  className="flex items-center gap-1"
+                >
+                  <Icon size={10} className="h-4 w-4 mr-2" />
+                  {title}
+                </Link>
               </Button>
             ))}
           </div>

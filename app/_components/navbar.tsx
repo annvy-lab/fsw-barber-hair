@@ -14,7 +14,7 @@ const Navbar = () => {
           <img src="logo.png" alt="logo app" />
         </Link>
         <Sheet>
-          <SheetTrigger>
+          <SheetTrigger asChild>
             <Button size="icon" variant="ghost" className="rounded-full">
               <MenuIcon />
             </Button>

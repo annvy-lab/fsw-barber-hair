@@ -139,15 +139,24 @@ const SideBarSheet = () => {
 
       <div className="w-full flex flex-col justify-start gap-2 border-b border-solid py-4">
         {quickSearchOptions.map(({ icon: Icon, title }) => (
-          <Button
-            key={title}
-            variant="ghost"
-            className="w-full justify-start font-light"
-            type="button"
-          >
-            <Icon className="h-4 w-4 mr-2" />
-            {title}
-          </Button>
+          <SheetClose key={title} asChild>
+            <Button
+              variant="ghost"
+              className="w-full justify-start font-light"
+              asChild
+            >
+              <Link
+                href={{
+                  pathname: "/barbershops",
+                  query: { search: title },
+                }}
+                className="flex items-center gap-2"
+              >
+                <Icon className="h-4 w-4 mr-2" />
+                {title}
+              </Link>
+            </Button>
+          </SheetClose>
         ))}
       </div>
 
