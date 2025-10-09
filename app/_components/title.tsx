@@ -5,7 +5,6 @@ import { Skeleton } from "./ui/skeleton";
 
 const Title = () => {
   const { data, status } = useSession();
-  const user = data?.user;
 
   const formatDate = () => {
     const s = new Intl.DateTimeFormat("pt-BR", {
@@ -25,7 +24,7 @@ const Title = () => {
             <Skeleton className="h-7 w-10" />
             <Skeleton className="h-7 w-40" />
           </div>
-          <Skeleton className="h-5 w-32" />
+          <Skeleton className="h-5 w-52" />
         </div>
       </div>
     );
@@ -34,7 +33,7 @@ const Title = () => {
   return (
     <div>
       {/* USER NOT LOGGED IN */}
-      {!user && (
+      {!data?.user && (
         <div className="px-6 my-6 gap-3">
           <h2 className="text-2xl">
             Olá, <span className="font-bold">Realize login</span>
@@ -47,10 +46,10 @@ const Title = () => {
       )}
 
       {/* USER LOGGED IN */}
-      {user && (
+      {data?.user && (
         <div className="px-6 my-6 gap-3">
           <h2 className="text-2xl">
-            Olá, <span className="font-bold">{user.name ?? "Usuário"}!</span>
+            Olá, <span className="font-bold">{data.user.name}!</span>
           </h2>
           <p>{formatDate()}</p>
         </div>

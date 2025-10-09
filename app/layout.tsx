@@ -8,7 +8,6 @@ import AuthProvider from "./_providers/auth";
 const nunito = Nunito({
   subsets: ["latin"],
   weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-nunito",
 });
 
 export const metadata: Metadata = {
@@ -23,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className="dark m-0 p-0 min-h-full">
-      <body className={`${nunito.variable} font-sans antialiased`}>
+      <body className={`${nunito.className} antialiased`}>
         <AuthProvider>
           <div className="flex flex-col h-full">
             <div className="flex-1">{children}</div>
@@ -42,7 +41,7 @@ export default function RootLayout({
         <Toaster
           position="top-center"
           toastOptions={{
-            duration: 3000,
+            duration: 4000,
             style: {
               background: "hsl(228, 9%, 23%)",
               color: "#fff",
