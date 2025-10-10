@@ -132,7 +132,6 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
       const date = set(selectedDay, { hours: Number(h), minutes: Number(m) });
       await CreateBooking({
         serviceId: service.id,
-        userId: (data?.user as any).id,
         date,
       });
       toast.success("Agendamento criado com sucesso!");
