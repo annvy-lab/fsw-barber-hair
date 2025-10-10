@@ -20,13 +20,11 @@ import {
   DialogClose,
 } from "./ui/dialog";
 import Link from "next/link";
-import Image from "next/image";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import DialogLogin from "../_components/dialog-login";
 
 const SideBarSheet = () => {
   const { data } = useSession();
-
-  const HandleLoginGoogleClick = () => signIn("google");
 
   const HandleSignOut = () => signOut();
 
@@ -53,29 +51,7 @@ const SideBarSheet = () => {
                     login
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="w-fit rounded-lg p-8">
-                  <DialogHeader className="space-y-2 whitespace-nowrap">
-                    <DialogTitle>Faça login na plataforma</DialogTitle>
-                    <DialogDescription>
-                      Conecte-se usando sua conta Google
-                    </DialogDescription>
-                  </DialogHeader>
-                  <Button
-                    onClick={HandleLoginGoogleClick}
-                    variant="outline"
-                    className="font-bold"
-                  >
-                    <div className="relative w-4 h-4">
-                      <Image
-                        src="/google-logo.svg"
-                        alt="Fazer login com Google"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    Google
-                  </Button>
-                </DialogContent>
+                <DialogLogin />
               </Dialog>
             </div>
           </div>

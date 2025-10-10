@@ -29,6 +29,7 @@ import {
 } from "./ui/dialog";
 import { startOfToday, format, set } from "date-fns";
 import { useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { CreateBooking } from "../_actions/create-booking";
 import toast from "react-hot-toast";
 import GetBookings from "../_actions/get-bookings";
@@ -78,6 +79,7 @@ const getTimeList = (bookings: Booking[]) =>
 
 const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
   const { data } = useSession();
+  const isLoggedIn = Boolean((data?.user as any)?.id);
 
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | undefined>(
@@ -187,207 +189,249 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
               }).format(Number(service.price))}
             </h3>
 
-            <Sheet
-              open={openSheet}
-              onOpenChange={(open) => {
-                setOpenSheet(open);
-                resetBookingState(true);
-              }}
-            >
-              <SheetTrigger asChild>
-                <Button variant="secondary" className="text-xs rounded-full">
-                  <Clock className="text-primary h-4 w-4" />
-                  Agendar
-                </Button>
-              </SheetTrigger>
+            {isLoggedIn ? (
+              <Sheet
+                open={openSheet}
+                onOpenChange={(open) => {
+                  setOpenSheet(open);
+                  resetBookingState(true);
+                }}
+              >
+                <SheetTrigger asChild>
+                  <Button variant="secondary" className="text-xs rounded-full">
+                    <Clock className="text-primary h-4 w-4" />
+                    Agendar
+                  </Button>
+                </SheetTrigger>
 
-              <SheetContent className="overflow-y-auto [&::-webkit-scrollbar]:hidden pb-8">
-                <SheetHeader>
-                  <SheetTitle className="text-primary">Agendamento</SheetTitle>
-                  <SheetDescription>
-                    Selecione abaixo o dia e horário para prosseguir:
-                  </SheetDescription>
-                </SheetHeader>
+                <SheetContent className="overflow-y-auto [&::-webkit-scrollbar]:hidden pb-8">
+                  <SheetHeader>
+                    <SheetTitle className="text-primary">
+                      Agendamento
+                    </SheetTitle>
+                    <SheetDescription>
+                      Selecione abaixo o dia e horário para prosseguir:
+                    </SheetDescription>
+                  </SheetHeader>
 
-                <div className="w-full">
-                  <Calendar
-                    mode="single"
-                    locale={ptBR}
-                    selected={selectedDay}
-                    onSelect={handleDaySelect}
-                    defaultMonth={startOfToday()}
-                    disabled={{ before: startOfToday() }}
-                  />
-                </div>
-
-                <div
-                  ref={scrollRef}
-                  onWheel={onWheelHorizontal}
-                  className="w-full border-t border-b py-5 mb-7 flex flex-nowrap gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap touch-pan-x [&::-webkit-scrollbar]:hidden"
-                  style={{ WebkitOverflowScrolling: "touch" }}
-                >
-                  {availableTimes.length === 0 ? (
-                    <div className="text-md text-gray-300 text-center flex flex-col w-full items-center self-center">
-                      <ClockAlert size={45} strokeWidth={1.3} />
-                      <p className="self-center mt-2">
-                        Sem horários disponíveis neste dia...
-                      </p>
-                      <p className="self-center">Por favor, tente outro!</p>
-                    </div>
-                  ) : (
-                    availableTimes.map((time) => (
-                      <Button
-                        key={time}
-                        onClick={() => handleTimeSelect(time)}
-                        variant={
-                          selectedTime === time ? "default" : "secondary"
-                        }
-                        className="rounded-full shrink-0"
-                      >
-                        {time}
-                      </Button>
-                    ))
-                  )}
-                </div>
-
-                {canShowSummary && (
-                  <div>
-                    <h2 className="mb-4 text-sm font-bold uppercase text-gray-400">
-                      Resumo
-                    </h2>
-                    <Card>
-                      <CardContent className="p-4 flex flex-col gap-1">
-                        <div className="flex items-start justify-between">
-                          <h2 className="text-lg font-semibold line-clamp-2">
-                            {service.name}
-                          </h2>
-                          <h3 className="text-xl text-primary font-semibold">
-                            {Intl.NumberFormat("pt-BR", {
-                              style: "currency",
-                              currency: "BRL",
-                            }).format(Number(service.price))}
-                          </h3>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <p className="text-sm text-gray-400">Data</p>
-                          <h2 className="text-base">
-                            {format(selectedDay as Date, "d 'de' MMMM", {
-                              locale: ptBR,
-                            })}
-                          </h2>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <p className="text-sm text-gray-400">Horário</p>
-                          <h2 className="text-base">{selectedTime}</h2>
-                        </div>
-                        <div className="flex items-start justify-between">
-                          <p className="text-sm text-gray-400">Barbearia</p>
-                          <h2 className="text-base line-clamp-2">
-                            {barbershop.name}
-                          </h2>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    <div className="flex items-center gap-2 mt-16">
-                      <SheetClose asChild>
-                        <Button variant="outline" className="w-4/12">
-                          Cancelar
-                        </Button>
-                      </SheetClose>
-
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button className="w-8/12">
-                            <Clock /> Continuar
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent className="w-fit rounded-lg p-8">
-                          <DialogHeader className="space-y-2 whitespace-nowrap">
-                            <DialogTitle>Resumo Agendamento</DialogTitle>
-                            <DialogDescription>
-                              Você tem certeza que deseja confirmar esse
-                              agendamento?
-                            </DialogDescription>
-                          </DialogHeader>
-                          <Card className="my-2">
-                            <CardContent className="p-4 flex flex-col gap-1">
-                              <div className="flex items-start justify-between">
-                                <h2 className="text-lg font-semibold line-clamp-2">
-                                  {service.name}
-                                </h2>
-                                <h3 className="text-xl text-primary font-semibold">
-                                  {Intl.NumberFormat("pt-BR", {
-                                    style: "currency",
-                                    currency: "BRL",
-                                  }).format(Number(service.price))}
-                                </h3>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <p className="text-sm text-gray-400">Data</p>
-                                <h2 className="text-base">
-                                  {format(selectedDay as Date, "d 'de' MMMM", {
-                                    locale: ptBR,
-                                  })}
-                                </h2>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <p className="text-sm text-gray-400">Horário</p>
-                                <h2 className="text-base">{selectedTime}</h2>
-                              </div>
-                              <div className="flex items-start justify-between">
-                                <p className="text-sm text-gray-400">
-                                  Barbearia
-                                </p>
-                                <h2 className="text-base line-clamp-2">
-                                  {barbershop.name}
-                                </h2>
-                              </div>
-                              <div className="flex items-start gap-2 justify-between">
-                                <p className="text-sm text-gray-400">
-                                  Endereço
-                                </p>
-                                <h2 className="text-md line-clamp-1">
-                                  {barbershop.address}
-                                </h2>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <p className="text-sm text-gray-400">
-                                  Reservado por
-                                </p>
-                                <h2 className="text-lg text-primary line-clamp-1">
-                                  {data?.user?.name}
-                                </h2>
-                              </div>
-                            </CardContent>
-                          </Card>
-
-                          <div className="w-full flex justify-end gap-2 mt-1">
-                            <DialogClose className="w-3/6">
-                              <Button
-                                variant="outline"
-                                className="font-bold w-full"
-                              >
-                                Cancelar
-                              </Button>
-                            </DialogClose>
-                            <DialogClose asChild>
-                              <Button
-                                onClick={handleCreateBooking}
-                                className="font-bold w-3/6"
-                                aria-label="confirmar reserva"
-                              >
-                                <Check /> Confirmar
-                              </Button>
-                            </DialogClose>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-                    </div>
+                  <div className="w-full">
+                    <Calendar
+                      mode="single"
+                      locale={ptBR}
+                      selected={selectedDay}
+                      onSelect={handleDaySelect}
+                      defaultMonth={startOfToday()}
+                      disabled={{ before: startOfToday() }}
+                    />
                   </div>
-                )}
-              </SheetContent>
-            </Sheet>
+
+                  <div
+                    ref={scrollRef}
+                    onWheel={onWheelHorizontal}
+                    className="w-full border-t border-b py-5 mb-7 flex flex-nowrap gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap touch-pan-x [&::-webkit-scrollbar]:hidden"
+                    style={{ WebkitOverflowScrolling: "touch" }}
+                  >
+                    {availableTimes.length === 0 ? (
+                      <div className="text-md text-gray-300 text-center flex flex-col w-full items-center self-center">
+                        <ClockAlert size={45} strokeWidth={1.3} />
+                        <p className="self-center mt-2">
+                          Sem horários disponíveis neste dia...
+                        </p>
+                        <p className="self-center">Por favor, tente outro!</p>
+                      </div>
+                    ) : (
+                      availableTimes.map((time) => (
+                        <Button
+                          key={time}
+                          onClick={() => handleTimeSelect(time)}
+                          variant={
+                            selectedTime === time ? "default" : "secondary"
+                          }
+                          className="rounded-full shrink-0"
+                        >
+                          {time}
+                        </Button>
+                      ))
+                    )}
+                  </div>
+
+                  {canShowSummary && (
+                    <div>
+                      <h2 className="mb-4 text-sm font-bold uppercase text-gray-400">
+                        Resumo
+                      </h2>
+                      <Card>
+                        <CardContent className="p-4 flex flex-col gap-1">
+                          <div className="flex items-start justify-between">
+                            <h2 className="text-lg font-semibold line-clamp-2">
+                              {service.name}
+                            </h2>
+                            <h3 className="text-xl text-primary font-semibold">
+                              {Intl.NumberFormat("pt-BR", {
+                                style: "currency",
+                                currency: "BRL",
+                              }).format(Number(service.price))}
+                            </h3>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <p className="text-sm text-gray-400">Data</p>
+                            <h2 className="text-base">
+                              {format(selectedDay as Date, "d 'de' MMMM", {
+                                locale: ptBR,
+                              })}
+                            </h2>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <p className="text-sm text-gray-400">Horário</p>
+                            <h2 className="text-base">{selectedTime}</h2>
+                          </div>
+                          <div className="flex items-start justify-between">
+                            <p className="text-sm text-gray-400">Barbearia</p>
+                            <h2 className="text-base line-clamp-2">
+                              {barbershop.name}
+                            </h2>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <div className="flex items-center gap-2 mt-16">
+                        <SheetClose asChild>
+                          <Button variant="outline" className="w-4/12">
+                            Cancelar
+                          </Button>
+                        </SheetClose>
+
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button className="w-8/12">
+                              <Clock /> Continuar
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="w-fit rounded-lg p-8">
+                            <DialogHeader className="space-y-2 whitespace-nowrap">
+                              <DialogTitle>Resumo Agendamento</DialogTitle>
+                              <DialogDescription>
+                                Você tem certeza que deseja confirmar esse
+                                agendamento?
+                              </DialogDescription>
+                            </DialogHeader>
+                            <Card className="my-2">
+                              <CardContent className="p-4 flex flex-col gap-1">
+                                <div className="flex items-start justify-between">
+                                  <h2 className="text-lg font-semibold line-clamp-2">
+                                    {service.name}
+                                  </h2>
+                                  <h3 className="text-xl text-primary font-semibold">
+                                    {Intl.NumberFormat("pt-BR", {
+                                      style: "currency",
+                                      currency: "BRL",
+                                    }).format(Number(service.price))}
+                                  </h3>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <p className="text-sm text-gray-400">Data</p>
+                                  <h2 className="text-base">
+                                    {format(
+                                      selectedDay as Date,
+                                      "d 'de' MMMM",
+                                      {
+                                        locale: ptBR,
+                                      }
+                                    )}
+                                  </h2>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <p className="text-sm text-gray-400">
+                                    Horário
+                                  </p>
+                                  <h2 className="text-base">{selectedTime}</h2>
+                                </div>
+                                <div className="flex items-start justify-between">
+                                  <p className="text-sm text-gray-400">
+                                    Barbearia
+                                  </p>
+                                  <h2 className="text-base line-clamp-2">
+                                    {barbershop.name}
+                                  </h2>
+                                </div>
+                                <div className="flex items-start gap-2 justify-between">
+                                  <p className="text-sm text-gray-400">
+                                    Endereço
+                                  </p>
+                                  <h2 className="text-md line-clamp-1">
+                                    {barbershop.address}
+                                  </h2>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <p className="text-sm text-gray-400">
+                                    Reservado por
+                                  </p>
+                                  <h2 className="text-lg text-primary line-clamp-1">
+                                    {data?.user?.name}
+                                  </h2>
+                                </div>
+                              </CardContent>
+                            </Card>
+
+                            <div className="w-full flex justify-end gap-2 mt-1">
+                              <DialogClose className="w-3/6">
+                                <Button
+                                  variant="outline"
+                                  className="font-bold w-full"
+                                >
+                                  Cancelar
+                                </Button>
+                              </DialogClose>
+                              <DialogClose asChild>
+                                <Button
+                                  onClick={handleCreateBooking}
+                                  className="font-bold w-3/6"
+                                  aria-label="confirmar reserva"
+                                >
+                                  <Check /> Confirmar
+                                </Button>
+                              </DialogClose>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      </div>
+                    </div>
+                  )}
+                </SheetContent>
+              </Sheet>
+            ) : (
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="secondary" className="text-xs rounded-full">
+                    <Clock className="text-primary h-4 w-4" />
+                    Agendar
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="w-fit rounded-lg p-8">
+                  <DialogHeader className="space-y-2 whitespace-nowrap">
+                    <DialogTitle>Faça login na plataforma</DialogTitle>
+                    <DialogDescription>
+                      Conecte-se usando sua conta Google
+                    </DialogDescription>
+                  </DialogHeader>
+                  <Button
+                    onClick={() => signIn("google")}
+                    variant="outline"
+                    className="font-bold gap-2"
+                  >
+                    <div className="relative w-4 h-4">
+                      <Image
+                        src="/google-logo.svg"
+                        alt="Fazer login com Google"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    Google
+                  </Button>
+                </DialogContent>
+              </Dialog>
+            )}
           </div>
         </div>
       </CardContent>
