@@ -70,7 +70,11 @@ const MyBookings = async () => {
           </h2>
           <div className="flex flex-col gap-4">
             {confirmedBookings.map((book) => (
-              <BookItem key={book.id} booking={book} />
+              <BookItem
+                key={book.id}
+                booking={book}
+                userName={session?.user?.name}
+              />
             ))}
           </div>
         </div>
@@ -83,7 +87,11 @@ const MyBookings = async () => {
           </h2>
           <div className="flex flex-col gap-4">
             {finishedBookings.map((book) => (
-              <BookItem key={book.id} booking={book} />
+              <BookItem
+                key={book.id}
+                booking={book}
+                userName={session?.user?.name}
+              />
             ))}
           </div>
         </div>

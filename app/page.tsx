@@ -83,6 +83,7 @@ const Home = async () => {
                   key={book.id}
                   booking={book}
                   isSingle={bookings.length === 1}
+                  userName={session?.user?.name}
                 />
               ))}
             </div>

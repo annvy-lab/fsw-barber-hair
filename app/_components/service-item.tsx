@@ -34,6 +34,7 @@ import toast from "react-hot-toast";
 import GetBookings from "../_actions/get-bookings";
 import DialogLogin from "./dialog-login";
 import EmptyState from "./empty-state";
+import BookingSummary from "./book-summary";
 
 interface ServiceItemProps {
   service: BarbershopService;
@@ -337,61 +338,21 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                                 agendamento?
                               </DialogDescription>
                             </DialogHeader>
-                            <Card className="my-2">
-                              <CardContent className="p-4 flex flex-col gap-1">
-                                <div className="flex items-start justify-between">
-                                  <h2 className="text-lg font-semibold line-clamp-2">
-                                    {service.name}
-                                  </h2>
-                                  <h3 className="text-xl text-primary font-semibold">
-                                    {Intl.NumberFormat("pt-BR", {
-                                      style: "currency",
-                                      currency: "BRL",
-                                    }).format(Number(service.price))}
-                                  </h3>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                  <p className="text-sm text-gray-400">Data</p>
-                                  <h2 className="text-base">
-                                    {format(
-                                      selectedDay as Date,
-                                      "d 'de' MMMM",
-                                      { locale: ptBR }
-                                    )}
-                                  </h2>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                  <p className="text-sm text-gray-400">
-                                    Horário
-                                  </p>
-                                  <h2 className="text-base">{selectedTime}</h2>
-                                </div>
-                                <div className="flex items-start justify-between">
-                                  <p className="text-sm text-gray-400">
-                                    Barbearia
-                                  </p>
-                                  <h2 className="text-base line-clamp-2">
-                                    {barbershop.name}
-                                  </h2>
-                                </div>
-                                <div className="flex items-start gap-2 justify-between">
-                                  <p className="text-sm text-gray-400">
-                                    Endereço
-                                  </p>
-                                  <h2 className="text-md line-clamp-1">
-                                    {barbershop.address}
-                                  </h2>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                  <p className="text-sm text-gray-400">
-                                    Reservado por
-                                  </p>
-                                  <h2 className="text-lg text-primary line-clamp-1">
-                                    {data?.user?.name}
-                                  </h2>
-                                </div>
-                              </CardContent>
-                            </Card>
+
+                            {/* Booking Summary */}
+                            <BookingSummary
+                              service={{
+                                name: service.name,
+                                price: service.price,
+                              }}
+                              barbershop={{
+                                name: barbershop.name,
+                                address: barbershop.address,
+                              }}
+                              selectedDay={selectedDay as Date}
+                              selectedTime={selectedTime}
+                              userName={data?.user?.name}
+                            />
 
                             <div className="w-full flex justify-end gap-2 mt-1">
                               <DialogClose className="w-3/6">
