@@ -29,10 +29,11 @@ import {
 } from "./ui/dialog";
 import { startOfToday, format, set } from "date-fns";
 import { useSession } from "next-auth/react";
-import { signIn } from "next-auth/react";
 import { CreateBooking } from "../_actions/create-booking";
 import toast from "react-hot-toast";
 import GetBookings from "../_actions/get-bookings";
+import DialogLogin from "./dialog-login";
+import EmptyState from "./empty-state";
 
 interface ServiceItemProps {
   service: BarbershopService;
@@ -61,20 +62,33 @@ const TIME_LIST = [
   "17:00",
   "17:30",
   "18:00",
+  "18:30",
+  "19:00",
+  "19:30",
+  "20:00",
 ];
 
-const getTimeList = (bookings: Booking[]) =>
+const getTimeList = (bookings: Booking[], day?: Date) =>
   TIME_LIST.filter((time) => {
     const [h, m] = time.split(":");
     const hour = Number(h);
     const minute = Number(m);
-    return !bookings.some((booking) => {
+    const taken = bookings.some((booking) => {
       const d =
         booking.date instanceof Date
           ? booking.date
           : new Date(booking.date as unknown as string);
       return d.getHours() === hour && d.getMinutes() === minute;
     });
+    if (taken) return false;
+    if (!day) return true;
+    const candidate = set(day, {
+      hours: hour,
+      minutes: minute,
+      seconds: 0,
+      milliseconds: 0,
+    });
+    return candidate.getTime() > Date.now();
   });
 
 const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
@@ -94,7 +108,10 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
     setDayBookings([]);
   };
 
-  const availableTimes = useMemo(() => getTimeList(dayBookings), [dayBookings]);
+  const availableTimes = useMemo(
+    () => getTimeList(dayBookings, selectedDay),
+    [dayBookings, selectedDay]
+  );
 
   useEffect(() => {
     const loadBookings = async () => {
@@ -193,7 +210,13 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                 open={openSheet}
                 onOpenChange={(open) => {
                   setOpenSheet(open);
-                  resetBookingState(true);
+                  if (open) {
+                    setSelectedDay(startOfToday());
+                    setSelectedTime(undefined);
+                    setDayBookings([]);
+                  } else {
+                    resetBookingState(true);
+                  }
                 }}
               >
                 <SheetTrigger asChild>
@@ -231,12 +254,12 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                     style={{ WebkitOverflowScrolling: "touch" }}
                   >
                     {availableTimes.length === 0 ? (
-                      <div className="text-md text-gray-300 text-center flex flex-col w-full items-center self-center">
-                        <ClockAlert size={45} strokeWidth={1.3} />
-                        <p className="self-center mt-2">
-                          Sem horários disponíveis neste dia...
-                        </p>
-                        <p className="self-center">Por favor, tente outro!</p>
+                      <div className="flex flex-col w-full items-center self-center">
+                        <EmptyState
+                          icon={ClockAlert}
+                          title="Sem horários disponíveis"
+                          description="Por favor, tente outro dia do calendário!"
+                        />
                       </div>
                     ) : (
                       availableTimes.map((time) => (
@@ -333,9 +356,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                                     {format(
                                       selectedDay as Date,
                                       "d 'de' MMMM",
-                                      {
-                                        locale: ptBR,
-                                      }
+                                      { locale: ptBR }
                                     )}
                                   </h2>
                                 </div>
@@ -406,29 +427,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                     Agendar
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="w-fit rounded-lg p-8">
-                  <DialogHeader className="space-y-2 whitespace-nowrap">
-                    <DialogTitle>Faça login na plataforma</DialogTitle>
-                    <DialogDescription>
-                      Conecte-se usando sua conta Google
-                    </DialogDescription>
-                  </DialogHeader>
-                  <Button
-                    onClick={() => signIn("google")}
-                    variant="outline"
-                    className="font-bold gap-2"
-                  >
-                    <div className="relative w-4 h-4">
-                      <Image
-                        src="/google-logo.svg"
-                        alt="Fazer login com Google"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    Google
-                  </Button>
-                </DialogContent>
+                <DialogLogin />
               </Dialog>
             )}
           </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/app/_components/ui/button";
-import { Copy } from "lucide-react";
+import { Clipboard } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function CopyPhoneButton({ phone }: { phone: string }) {
@@ -21,7 +21,7 @@ export default function CopyPhoneButton({ phone }: { phone: string }) {
       className="text-xs"
       onClick={handleCopyPhone}
     >
-      <Copy size={12} className="mr-1" /> Copiar
+      <Clipboard size={12} className="mr-0" /> Copiar
     </Button>
   );
 }

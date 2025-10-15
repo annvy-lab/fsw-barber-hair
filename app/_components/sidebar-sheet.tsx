@@ -33,7 +33,7 @@ const SideBarSheet = () => {
       <SheetHeader className="w-full items-center justify-start text-start">
         <SheetTitle className="self-start mt-[-0.7rem]">Menu</SheetTitle>
         {/* USER NOT LOGGED IN */}
-        {!data?.user && (
+        {!data?.user ? (
           <div className="w-full flex flex-col items-center gap-4 mb-4 border-b border-solid py-4 pt-2">
             <div className="w-full flex items-start flex-col justify-start text-start">
               <h3 className="text-md font-bold line-clamp-1">
@@ -55,10 +55,8 @@ const SideBarSheet = () => {
               </Dialog>
             </div>
           </div>
-        )}
-
-        {/* USER LOGGED IN */}
-        {data?.user && (
+        ) : (
+          // {/* USER LOGGED IN */}
           <div className="w-full flex items-center gap-4 mb-4 border-b border-solid py-4 pt-2">
             <Avatar className="h-10 w-10 border-2 border-primary">
               <AvatarImage
@@ -103,14 +101,35 @@ const SideBarSheet = () => {
           </Button>
         </SheetClose>
 
-        <Button
-          variant="ghost"
-          className="w-full justify-start font-light"
-          type="button"
-        >
-          <CalendarDays className="h-4 w-4 mr-2" />
-          agendamentos
-        </Button>
+        {/* USER NOT LOGGED IN */}
+        {!data?.user ? (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="ghost"
+                className="w-full justify-start font-light"
+                type="button"
+              >
+                <CalendarDays className="h-4 w-4 mr-2" />
+                agendamentos
+              </Button>
+            </DialogTrigger>
+            <DialogLogin />
+          </Dialog>
+        ) : (
+          // {/* USER LOGGED IN */}
+          <Button
+            asChild
+            variant="ghost"
+            className="w-full justify-start font-light"
+            type="button"
+          >
+            <Link href="/my-bookings">
+              <CalendarDays className="h-4 w-4 mr-2" />
+              agendamentos
+            </Link>
+          </Button>
+        )}
       </div>
 
       <div className="w-full flex flex-col justify-start gap-2 border-b border-solid py-4">

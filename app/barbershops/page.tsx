@@ -3,6 +3,7 @@ import BarbershopItem from "../_components/barbershop-item";
 import SearchBar from "../_components/search";
 import { db } from "../_lib/prisma";
 import Navbar from "@/app/_components/navbar";
+import EmptyState from "../_components/empty-state";
 
 interface BarbershopsPageProps {
   searchParams: {
@@ -54,12 +55,12 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
         </h2>
         <div className="grid grid-cols-2 gap-2">
           {barbershops.length === 0 && (
-            <div className="col-span-2 gap-2 py-8 flex flex-col justify-center items-center opacity-70">
-              <SearchX className="w-20 h-20" strokeWidth={0.7} />
-              <p className="text-secondary-foreground text-center">
-                Nenhum resultado encontrado... <br />
-                Tente outra busca!
-              </p>
+            <div className="col-span-2 gap-2 py-12 flex flex-col justify-center items-center">
+              <EmptyState
+                icon={SearchX}
+                title="Nenhum resultado encontrado..."
+                description="Tente outra busca!"
+              />
             </div>
           )}
           {barbershops.map((barbershop) => (

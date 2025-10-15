@@ -2,19 +2,11 @@
 
 import { useSession } from "next-auth/react";
 import { Skeleton } from "./ui/skeleton";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 const Title = () => {
   const { data, status } = useSession();
-
-  const formatDate = () => {
-    const s = new Intl.DateTimeFormat("pt-BR", {
-      weekday: "long",
-      day: "2-digit",
-      month: "long",
-      timeZone: "America/Fortaleza",
-    }).format(new Date());
-    return s.charAt(0).toUpperCase() + s.slice(1);
-  };
 
   if (status === "loading") {
     return (
@@ -41,7 +33,12 @@ const Title = () => {
           <p className="text-sm text-primary/70 line-clamp-2 font-normal mb-1">
             para aproveitar todos os recursos do app!
           </p>
-          <p>{formatDate()}</p>
+          <p>
+            {format(new Date(), "EEEE, dd 'de' MMMM", { locale: ptBR }).replace(
+              /^./,
+              (c) => c.toUpperCase()
+            )}
+          </p>
         </div>
       )}
 
@@ -51,7 +48,12 @@ const Title = () => {
           <h2 className="text-2xl">
             Olá, <span className="font-bold">{data.user.name}!</span>
           </h2>
-          <p>{formatDate()}</p>
+          <p>
+            {format(new Date(), "EEEE, dd 'de' MMMM", { locale: ptBR }).replace(
+              /^./,
+              (c) => c.toUpperCase()
+            )}
+          </p>
         </div>
       )}
     </div>
