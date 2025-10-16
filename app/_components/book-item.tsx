@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 import { format, isFuture, isToday, isTomorrow } from "date-fns";
 import { ptBR } from "date-fns/locale";

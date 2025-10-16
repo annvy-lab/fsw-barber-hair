@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -37,9 +39,10 @@ const CreateBookingDialog = ({
   }, []);
 
   const toBRL = (v: any) =>
-    new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
-      Number(v)
-    );
+    new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(Number(v));
 
   const sanitizePhone = (n?: string) => {
     if (!n) return null;
@@ -51,8 +54,9 @@ const CreateBookingDialog = ({
 
   const buildWhatsAppUrl = () => {
     const when =
-      `${format(selectedDay, "EEEE, dd 'de' MMMM 'de' yyyy", { locale: ptBR })}` +
-      ` às ${selectedTime}`;
+      `${format(selectedDay, "EEEE, dd 'de' MMMM 'de' yyyy", {
+        locale: ptBR,
+      })}` + ` às ${selectedTime}`;
 
     const lines = [
       "🗓️ *Novo agendamento*",
@@ -71,7 +75,9 @@ const CreateBookingDialog = ({
     const text = encodeURIComponent(lines.join("\n"));
     const phone = sanitizePhone(barbershop.phone);
 
-    return phone ? `https://wa.me/${phone}?text=${text}` : `https://wa.me/?text=${text}`;
+    return phone
+      ? `https://wa.me/${phone}?text=${text}`
+      : `https://wa.me/?text=${text}`;
   };
 
   const handleSendWhatsApp = () => {
@@ -81,7 +87,10 @@ const CreateBookingDialog = ({
 
   return (
     <DialogContent className="w-[60%] rounded-lg px-6 py-8 flex flex-col items-center justify-center">
-      <Confetti ref={confettiRef} className="absolute top-0 left-0 z-0 size-full" />
+      <Confetti
+        ref={confettiRef}
+        className="absolute top-0 left-0 z-0 size-full"
+      />
 
       <DialogHeader className="space-y-2">
         <DialogTitle>Agendamento Efetuado!</DialogTitle>
