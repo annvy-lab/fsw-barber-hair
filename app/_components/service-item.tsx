@@ -317,7 +317,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                         </CardContent>
                       </Card>
 
-                      <div className="flex items-center gap-2 mt-16">
+                      <div className="flex items-center gap-2 mt-6 self-baseline">
                         <SheetClose asChild>
                           <Button variant="outline" className="w-4/12">
                             Cancelar
