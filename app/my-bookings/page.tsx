@@ -63,7 +63,7 @@ const MyBookings = async () => {
       )}
 
       {/* BOOKINGS */}
-      {confirmedBookings.length > 0 && (
+      {confirmedBookings.length > 0 ? (
         <div className="px-6 mt-6">
           <h2 className="mb-4 text-sm font-bold uppercase text-gray-400">
             Confirmados
@@ -78,10 +78,10 @@ const MyBookings = async () => {
             ))}
           </div>
         </div>
-      )}
+      ) : null}
 
-      {finishedBookings.length > 0 && (
-        <div id="barbershops" className="px-6 flex flex-col mt-10 mb-10">
+      {finishedBookings.length > 0 ? (
+        <div id="barbershops" className="px-6 flex flex-col mt-6 mb-10">
           <h2 className="mb-4 text-sm font-bold uppercase text-gray-400">
             Finalizados
           </h2>
@@ -95,7 +95,7 @@ const MyBookings = async () => {
             ))}
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };

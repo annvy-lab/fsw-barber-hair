@@ -1,3 +1,4 @@
+"use client";
 import { format, isFuture, isToday, isTomorrow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
@@ -17,6 +18,17 @@ import {
 import BookingSummary from "./book-summary";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { DeleteBooking } from "../_actions/delete-booking";
+import toast from "react-hot-toast";
 // import CopyBookIDButton from "./copy-book-id";
 
 interface BookProps {
@@ -29,7 +41,20 @@ interface BookProps {
 
 const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
   const isConfirmed = isFuture(booking.date);
-
+  const handleDeleteBooking = () => {
+    if (!isConfirmed) {
+      toast.error("Esse agendamento já foi finalizado!");
+      return;
+    } else {
+      try {
+        DeleteBooking(booking.id);
+        toast.success("Agendamento cancelado com sucesso!");
+      } catch (error) {
+        console.log(error);
+        toast.error("Erro ao cancelar o agendamento. Tente novamente.");
+      }
+    }
+  };
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -48,10 +73,7 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
                   {isConfirmed ? "Confirmado" : "Finalizado"}
                 </Badge>
               </div>
-              <Link
-                href={`/barbershops/${booking.service.barbershopId}`}
-                className="w-fit flex flex-row items-center gap-2 text-sm text-foreground/90 mt-1"
-              >
+              <div className="w-fit flex flex-row items-center gap-2 text-sm text-foreground/90 mt-1">
                 <Avatar className="h-7 w-7">
                   <AvatarImage src={booking.service.barbershop.imageUrl} />
                   <AvatarFallback>CN</AvatarFallback>
@@ -59,7 +81,7 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
                 <p className="line-clamp-1 mt-1">
                   {booking.service.barbershop.name}
                 </p>
-              </Link>
+              </div>
               <div className="flex items-baseline gap-1 mt-2 justify-between">
                 <p className="line-clamp-1 text-[0.65rem] text-foreground/35">
                   {booking.id}
@@ -78,10 +100,10 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
               </div>
             ) : isTomorrow(booking.date) ? (
               <div className="h-full min-w-24 max-w-24 flex flex-col border-l-2 justify-between items-center p-2">
-                <p className="text-sm">
+                <p className="text-lg font-medium text-primary">Amanhã</p>
+                <p className="text-base">
                   {format(booking.date, "EEE", { locale: ptBR })}
                 </p>
-                <p className="text-base font-medium text-primary">Amanhã</p>
                 <p className="text-lg">{format(booking.date, "HH:mm")}</p>
               </div>
             ) : (
@@ -101,8 +123,12 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
       <SheetContent className="min-h-svh flex flex-col justify-between">
         <div className="flex flex-col p-0">
           <SheetHeader>
-            <SheetTitle className="self-start mb-4">
+            <SheetTitle className="self-start mb-3 text-start">
               Detalhes do Agendamento
+              <br />
+              <p className="line-clamp-1 text-[0.70rem] -mt-1 text-foreground/35">
+                {booking.id}
+              </p>
             </SheetTitle>
           </SheetHeader>
           <div className="relative w-full min-h-44 max-w-prose rounded-xl overflow-hidden">
@@ -113,7 +139,10 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
               className="object-cover object-center"
               priority
             />
-            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 bg-card w-64 max-w-72 flex flex-row items-center gap-2 p-2 px-4 rounded-xl text-sm text-foreground/90 justify-start shadow-md">
+            <Link
+              href={`/barbershops/${booking.service.barbershopId}`}
+              className="absolute bottom-5 left-1/2 -translate-x-1/2 bg-card w-64 max-w-72 flex flex-row items-center gap-2 p-2 px-4 rounded-xl text-sm text-foreground/90 justify-start shadow-md"
+            >
               <Avatar className="h-10 w-10">
                 <AvatarImage src={booking.service.barbershop.imageUrl} />
                 <AvatarFallback>CN</AvatarFallback>
@@ -126,7 +155,7 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
                   {booking.service.barbershop.address}
                 </p>
               </div>
-            </div>
+            </Link>
           </div>
 
           <Badge
@@ -148,9 +177,6 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
             selectedTime={format(booking.date, "HH:mm")}
             userName={userName}
           />
-          <p className="line-clamp-1 text-[0.65rem] text-foreground/35 mt-1">
-            ID: {booking.id}
-          </p>
         </div>
         {isConfirmed && (
           <SheetFooter className="flex flex-row items-center gap-2 justify-center">
@@ -159,9 +185,53 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
                 Voltar
               </Button>
             </SheetClose>
-            <Button variant="destructive" className="w-3/5">
-              Cancelar Agendamento
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="destructive" className="w-3/5">
+                  Cancelar Agendamento
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-[90%] rounded-lg p-8">
+                <DialogHeader className="space-y-2">
+                  <DialogTitle>Cancelar Agendamento</DialogTitle>
+                  <DialogDescription>
+                    Você tem certeza que irá fazer o cancelamento do agendamento
+                    abaixo? Isso é uma ação irreversível!
+                  </DialogDescription>
+                </DialogHeader>
+                <BookingSummary
+                  service={{
+                    name: booking.service.name,
+                    price: booking.service.price,
+                  }}
+                  barbershop={{
+                    name: booking.service.barbershop.name,
+                    address: booking.service.barbershop.address,
+                  }}
+                  selectedDay={new Date(booking.date)}
+                  selectedTime={format(booking.date, "HH:mm")}
+                  userName={userName}
+                />
+                <p className="line-clamp-1 text-[0.70rem] -mt-2 text-foreground/35">
+                  {booking.id}
+                </p>
+                <div className="w-full flex justify-end gap-2 mt-1">
+                  <DialogClose className="w-3/6">
+                    <Button variant="outline" className="font-bold w-full">
+                      Voltar
+                    </Button>
+                  </DialogClose>
+                  <Button
+                    onClick={handleDeleteBooking}
+                    variant="destructive"
+                    className="font-bold w-3/6"
+                    aria-label="Condirmar Cancelamento do Agendamento"
+                  >
+                    Confirmar
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
           </SheetFooter>
         )}
       </SheetContent>
