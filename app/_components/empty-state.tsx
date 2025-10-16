@@ -12,7 +12,7 @@ const EmptyState = ({ icon: Icon, title, description }: EmptyStateProps) => {
       <Icon size={60} strokeWidth={1.2} className="mb-2 text-foreground/60" />
       <p className="text-xl font-semibold text-foreground">{title}</p>
       {description && (
-        <p className="text-sm text-foreground/70 max-w-[80%]">{description}</p>
+        <p className="text-sm text-foreground/70 max-w-[90%]">{description}</p>
       )}
     </div>
   );
