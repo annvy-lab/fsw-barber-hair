@@ -227,7 +227,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   </Button>
                 </SheetTrigger>
 
-                <SheetContent className="w-[85%] min-h-svh gap-2 overflow-y-auto [&::-webkit-scrollbar]:hidden pb-8">
+                <SheetContent className="w-[85%] min-h-svh gap-2 overflow-y-scroll [&::-webkit-scrollbar]:hidden pb-6">
                   <SheetHeader>
                     <SheetTitle className="text-primary">
                       Agendamento
