@@ -27,12 +27,8 @@ const Title = () => {
       {/* USER NOT LOGGED IN */}
       {!data?.user && (
         <div className="px-6 my-6 gap-3">
-          <h2 className="text-2xl">
-            Olá, <span className="font-bold">Realize login</span>
-          </h2>
-          <p className="text-sm text-primary/70 line-clamp-2 font-normal mb-1">
-            para aproveitar todos os recursos do app!
-          </p>
+          <h2 className="text-2xl">Olá, bem-vindo(a)!</h2>
+
           <p>
             {format(new Date(), "EEEE, dd 'de' MMMM", { locale: ptBR }).replace(
               /^./,
@@ -46,7 +42,15 @@ const Title = () => {
       {data?.user && (
         <div className="px-6 my-6 gap-3">
           <h2 className="text-2xl">
-            Olá, <span className="font-bold">{data.user.name}!</span>
+            Olá,{" "}
+            <span className="font-bold">
+              {(data?.user?.name ?? "")
+                .trim()
+                .split(/\s+/)
+                .slice(0, 2)
+                .join(" ") || "usuário"}
+            </span>
+            !
           </h2>
           <p>
             {format(new Date(), "EEEE, dd 'de' MMMM", { locale: ptBR }).replace(
