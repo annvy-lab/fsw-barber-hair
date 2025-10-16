@@ -227,7 +227,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   </Button>
                 </SheetTrigger>
 
-                <SheetContent className="w-[85%] gap-2 overflow-y-auto [&::-webkit-scrollbar]:hidden pb-8">
+                <SheetContent className="w-[85%] min-h-svh gap-2 overflow-y-auto [&::-webkit-scrollbar]:hidden pb-8">
                   <SheetHeader>
                     <SheetTitle className="text-primary">
                       Agendamento
@@ -251,7 +251,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   <div
                     ref={scrollRef}
                     onWheel={onWheelHorizontal}
-                    className="w-full border-t border-b py-5 mb-7 flex flex-nowrap gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap touch-pan-x [&::-webkit-scrollbar]:hidden"
+                    className="w-full border-t border-b py-5 mb-7 mt-3 flex flex-nowrap gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap touch-pan-x [&::-webkit-scrollbar]:hidden"
                     style={{ WebkitOverflowScrolling: "touch" }}
                   >
                     {availableTimes.length === 0 ? (
