@@ -122,7 +122,7 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
           </CardContent>
         </Card>
       </SheetTrigger>
-      <SheetContent className="min-h-svh flex flex-col justify-between">
+      <SheetContent className="w-[85%] min-h-svh flex flex-col justify-between">
         <div className="flex flex-col p-0">
           <SheetHeader>
             <SheetTitle className="self-start mb-3 text-start">

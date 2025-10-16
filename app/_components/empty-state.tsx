@@ -8,7 +8,7 @@ interface EmptyStateProps {
 
 const EmptyState = ({ icon: Icon, title, description }: EmptyStateProps) => {
   return (
-    <div className="w-full flex flex-col gap-0 items-center text-center">
+    <div className="w-full max-w-full flex flex-col gap-0 items-center text-center">
       <Icon size={60} strokeWidth={1.2} className="mb-2 text-foreground/60" />
       <p className="text-xl font-semibold text-foreground">{title}</p>
       {description && (
