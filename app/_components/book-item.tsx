@@ -68,19 +68,25 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
         >
           <CardContent className="flex flex-row items-center justify-between p-0">
             {/* LEFT */}
-            <div className="flex flex-col gap-1 w-[77%] min-w-[77%] max-w-[77%] p-4 pr-3">
-              <div className="full flex gap-2 items-center justify-between">
-                <h3 className="font-semibold text-lg line-clamp-1 break-words whitespace-break-spaces text-ellipsis mb-[0.2rem]">
-                  {booking.service.name}
-                </h3>
+            <div className="flex flex-col gap-1 w-[76%] min-w-[76%] max-w-[76%] p-4">
+              <div className="full flex gap-2 items-center justify-between mb-1">
                 <Badge
-                  className="w-fit rounded-full ml-[-0.1rem] mb-1"
+                  className="w-fit rounded-full"
                   variant={isConfirmed ? "default" : "secondary"}
                 >
                   {isConfirmed ? "Confirmado" : "Finalizado"}
                 </Badge>
+                <Badge
+                  className="w-fit rounded-full gap-1 pr-1"
+                  variant="outline"
+                >
+                  Ver mais <ChevronRight size={15} />
+                </Badge>
               </div>
-              <div className="w-fit flex flex-row items-center gap-2 text-sm text-foreground/90 mt-1">
+              <h3 className="font-semibold text-xl line-clamp-1 break-words whitespace-break-spaces text-ellipsis">
+                {booking.service.name}
+              </h3>
+              <div className="w-fit flex flex-row items-center gap-2 text-sm text-foreground/90">
                 <Avatar className="h-7 w-7">
                   <AvatarImage src={booking.service.barbershop.imageUrl} />
                   <AvatarFallback>CN</AvatarFallback>
@@ -89,22 +95,10 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
                   {booking.service.barbershop.name}
                 </p>
               </div>
-              <div className="flex items-baseline gap-2 mt-2 justify-between">
-                <p className="line-clamp-1 text-[0.65rem] text-foreground/35">
-                  {booking.id}
-                </p>
-                <Badge
-                  className="w-fit whitespace-nowrap flex flex-row rounded-full gap-1 pr-1"
-                  variant="outline"
-                >
-                  Ver mais <ChevronRight size={15} />
-                </Badge>
-                {/* <CopyBookIDButton id={booking.id} /> */}
-              </div>
             </div>
             {/* RIGHT */}
             {isToday(booking.date) ? (
-              <div className="h-full w-[23%] min-w-[23%] max-w-[23%] flex flex-col border-l-2 justify-center items-center p-2">
+              <div className="h-full w-[24%] min-w-[24%] max-w-[24%] flex flex-col border-l-2 justify-center items-center">
                 <p className="text-xl font-medium text-primary">Hoje</p>
                 <p className="text-base">
                   {format(booking.date, "EEE", { locale: ptBR })}
@@ -112,7 +106,7 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
                 <p className="text-lg">{format(booking.date, "HH:mm")}</p>
               </div>
             ) : isTomorrow(booking.date) ? (
-              <div className="h-full w-[23%] min-w-[23%] max-w-[23%] flex flex-col border-l-2 justify-between items-center p-2">
+              <div className="h-full w-[24%] min-w-[24%] max-w-[24%] flex flex-col border-l-2 justify-center items-center">
                 <p className="text-lg font-medium text-primary">Amanhã</p>
                 <p className="text-base">
                   {format(booking.date, "EEE", { locale: ptBR })}
@@ -120,7 +114,7 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
                 <p className="text-lg">{format(booking.date, "HH:mm")}</p>
               </div>
             ) : (
-              <div className="h-full w-[23%] min-w-[23%] max-w-[23%] flex flex-col border-l-2 justify-between items-center p-2">
+              <div className="h-full w-[24%] min-w-[24%] max-w-[24%] flex flex-col border-l-2 justify-center items-center">
                 <p className="text-2xl font-medium">
                   {format(booking.date, "dd", { locale: ptBR })}
                 </p>
