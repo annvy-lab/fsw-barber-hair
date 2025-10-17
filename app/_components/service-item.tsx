@@ -227,7 +227,10 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   </Button>
                 </SheetTrigger>
 
-                <SheetContent className="w-[85%] min-h-svh gap-2 overflow-y-scroll [&::-webkit-scrollbar]:hidden pb-6">
+                <SheetContent
+                  className="w-[85%] min-h-[100dvh] gap-2 overflow-y-auto overscroll-contain bg-background [&::-webkit-scrollbar]:hidden pb-6"
+                  style={{ WebkitOverflowScrolling: "touch" }}
+                >
                   <SheetHeader>
                     <SheetTitle className="text-primary">
                       Agendamento
@@ -237,7 +240,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                     </SheetDescription>
                   </SheetHeader>
 
-                  <div className="w-full">
+                  <div className="w-full relative z-10">
                     <Calendar
                       mode="single"
                       locale={ptBR}
@@ -251,8 +254,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   <div
                     ref={scrollRef}
                     onWheel={onWheelHorizontal}
-                    className="w-full border-t border-b py-5 my-10 mt-3 flex flex-nowrap gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap touch-pan-x [&::-webkit-scrollbar]:hidden"
-                    style={{ WebkitOverflowScrolling: "touch" }}
+                    className="z-0 w-full border-t border-b py-6 mb-8 mt-2 flex flex-nowrap gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap touch-pan-x [&::-webkit-scrollbar]:hidden"
                   >
                     {availableTimes.length === 0 ? (
                       <div className="flex flex-col w-full items-center self-center">
@@ -330,8 +332,8 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                               <Clock /> Continuar
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="w-fit rounded-lg p-8">
-                            <DialogHeader className="space-y-2 whitespace-nowrap">
+                          <DialogContent className="w-[85%] rounded-lg p-8">
+                            <DialogHeader className="space-y-2">
                               <DialogTitle>Resumo Agendamento</DialogTitle>
                               <DialogDescription>
                                 Você tem certeza que deseja confirmar esse
