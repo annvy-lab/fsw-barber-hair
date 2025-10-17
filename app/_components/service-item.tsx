@@ -240,7 +240,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                     </SheetDescription>
                   </SheetHeader>
 
-                  <div className="w-full relative z-10 min-h-[360px] md:min-h-0">
+                  <div className="w-full relative z-10 min-h-72 md:min-h-0">
                     <Calendar
                       mode="single"
                       locale={ptBR}
