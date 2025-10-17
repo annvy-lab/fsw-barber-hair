@@ -254,7 +254,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   <div
                     ref={scrollRef}
                     onWheel={onWheelHorizontal}
-                    className="z-0 w-full border-t border-b py-6 mb-8 mt-2 flex flex-nowrap gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap touch-pan-x [&::-webkit-scrollbar]:hidden"
+                    className="z-0 w-full border-b py-6 mb-8 mt-2 flex flex-nowrap gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap touch-pan-x [&::-webkit-scrollbar]:hidden"
                   >
                     {availableTimes.length === 0 ? (
                       <div className="flex flex-col w-full items-center self-center">
@@ -332,7 +332,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                               <Clock /> Continuar
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="w-[85%] rounded-lg p-8">
+                          <DialogContent className="w-[90%] rounded-lg p-8">
                             <DialogHeader className="space-y-2">
                               <DialogTitle>Resumo Agendamento</DialogTitle>
                               <DialogDescription>
