@@ -38,7 +38,7 @@
    --sidebar-border: oklch(0.92 0.004 286.32);
    --sidebar-ring: oklch(0.606 0.25 292.717);
  }
- 
+
   .dark {
     font-family: var(--font-nunito), sans-serif;
     --background: 225 9% 9%;
@@ -71,6 +71,9 @@
 
     --radius: 0.6rem;
   }
+  .theme {
+      --animate-rippling: rippling var(--duration) ease-out;
+   }
 }
 
 @layer base {
@@ -83,4 +86,25 @@
   body {
     @apply h-full bg-background text-foreground;
   }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+   }
+  body {
+    @apply bg-background text-foreground;
+   }
+}
+
+@theme inline {
+  @keyframes rippling {
+  0% {
+    opacity: 1;
+      }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+      }
+   }
 }

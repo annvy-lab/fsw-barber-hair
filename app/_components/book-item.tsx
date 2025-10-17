@@ -31,6 +31,8 @@ import {
 } from "./ui/dialog";
 import { DeleteBooking } from "../_actions/delete-booking";
 import toast from "react-hot-toast";
+import { RippleButton } from "./ui/ripple-button";
+import { ChevronRight } from "lucide-react";
 // import CopyBookIDButton from "./copy-book-id";
 
 interface BookProps {
@@ -60,12 +62,16 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Card className={`p-0 ${isSingle ? "min-w-full" : "min-w-[85%]"}`}>
+        <Card
+          className={`p-0 ${
+            isSingle ? "min-w-full" : "min-w-[85%]"
+          } cursor-pointer rounded-xl`}
+        >
           <CardContent className="flex flex-row items-center justify-between p-0">
             {/* LEFT */}
-            <div className="flex flex-col gap-1 w-full p-4">
+            <div className="flex flex-col gap-1 w-[77%] min-w-[77%] max-w-[77%] p-4 pr-3">
               <div className="full flex gap-2 items-center justify-between">
-                <h3 className="font-semibold text-xl line-clamp-1">
+                <h3 className="font-semibold text-xl line-clamp-1 break-words whitespace-break-spaces text-ellipsis mb-[0.2rem]">
                   {booking.service.name}
                 </h3>
                 <Badge
@@ -84,16 +90,22 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
                   {booking.service.barbershop.name}
                 </p>
               </div>
-              <div className="flex items-baseline gap-1 mt-2 justify-between">
+              <div className="flex items-baseline gap-2 mt-2 justify-between">
                 <p className="line-clamp-1 text-[0.65rem] text-foreground/35">
                   {booking.id}
                 </p>
+                <Badge
+                  className="w-fit whitespace-nowrap flex flex-row rounded-full gap-1 pr-1"
+                  variant="outline"
+                >
+                  Ver mais <ChevronRight size={15} />
+                </Badge>
                 {/* <CopyBookIDButton id={booking.id} /> */}
               </div>
             </div>
             {/* RIGHT */}
             {isToday(booking.date) ? (
-              <div className="h-full min-w-24 max-w-24 flex flex-col border-l-2 justify-between items-center p-2">
+              <div className="h-full w-[23%] min-w-[23%] max-w-[23%] flex flex-col border-l-2 justify-center items-center p-2">
                 <p className="text-xl font-medium text-primary">Hoje</p>
                 <p className="text-base">
                   {format(booking.date, "EEE", { locale: ptBR })}
@@ -101,7 +113,7 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
                 <p className="text-lg">{format(booking.date, "HH:mm")}</p>
               </div>
             ) : isTomorrow(booking.date) ? (
-              <div className="h-full min-w-24 max-w-24 flex flex-col border-l-2 justify-between items-center p-2">
+              <div className="h-full w-[23%] min-w-[23%] max-w-[23%] flex flex-col border-l-2 justify-between items-center p-2">
                 <p className="text-lg font-medium text-primary">Amanhã</p>
                 <p className="text-base">
                   {format(booking.date, "EEE", { locale: ptBR })}
@@ -109,7 +121,7 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
                 <p className="text-lg">{format(booking.date, "HH:mm")}</p>
               </div>
             ) : (
-              <div className="h-full min-w-24 max-w-24 flex flex-col border-l-2 justify-between items-center p-2">
+              <div className="h-full w-[23%] min-w-[23%] max-w-[23%] flex flex-col border-l-2 justify-between items-center p-2">
                 <p className="text-2xl font-medium">
                   {format(booking.date, "dd", { locale: ptBR })}
                 </p>
@@ -227,7 +239,7 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
                     onClick={handleDeleteBooking}
                     variant="destructive"
                     className="font-bold w-3/6"
-                    aria-label="Condirmar Cancelamento do Agendamento"
+                    aria-label="Confirmar Cancelamento do Agendamento"
                   >
                     Confirmar
                   </Button>
