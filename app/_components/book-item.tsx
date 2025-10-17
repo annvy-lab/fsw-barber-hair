@@ -70,7 +70,7 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
             {/* LEFT */}
             <div className="flex flex-col gap-1 w-[77%] min-w-[77%] max-w-[77%] p-4 pr-3">
               <div className="full flex gap-2 items-center justify-between">
-                <h3 className="font-semibold text-xl line-clamp-1 break-words whitespace-break-spaces text-ellipsis mb-[0.2rem]">
+                <h3 className="font-semibold text-lg line-clamp-1 break-words whitespace-break-spaces text-ellipsis mb-[0.2rem]">
                   {booking.service.name}
                 </h3>
                 <Badge
