@@ -81,7 +81,7 @@ const Home = async () => {
               {bookings.map((book) => (
                 <BookItem
                   key={book.id}
-                  booking={book}
+                  booking={JSON.parse(JSON.stringify(book))}
                   isSingle={bookings.length === 1}
                   userName={session?.user?.name}
                 />
@@ -96,7 +96,10 @@ const Home = async () => {
           </h2>
           <div className="flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
             {barbershops.map((barbershop) => (
-              <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+              <BarbershopItem
+                key={barbershop.id}
+                barbershop={JSON.parse(JSON.stringify(barbershop))}
+              />
             ))}
           </div>
         </div>
@@ -107,7 +110,10 @@ const Home = async () => {
           </h2>
           <div className="flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
             {popularBarbershops.map((barbershop) => (
-              <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+              <BarbershopItem
+                key={barbershop.id}
+                barbershop={JSON.parse(JSON.stringify(barbershop))}
+              />
             ))}
           </div>
         </div>
