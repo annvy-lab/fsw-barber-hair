@@ -31,7 +31,6 @@ import {
 } from "./ui/dialog";
 import { DeleteBooking } from "../_actions/delete-booking";
 import toast from "react-hot-toast";
-import { RippleButton } from "./ui/ripple-button";
 import { ChevronRight } from "lucide-react";
 // import CopyBookIDButton from "./copy-book-id";
 
