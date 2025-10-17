@@ -240,7 +240,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                     </SheetDescription>
                   </SheetHeader>
 
-                  <div className="w-full relative z-10 min-h-[285px] md:min-h-0">
+                  <div className="w-full relative z-10 min-h-[300px] md:min-h-0">
                     <Calendar
                       mode="single"
                       locale={ptBR}
@@ -254,7 +254,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   <div
                     ref={scrollRef}
                     onWheel={onWheelHorizontal}
-                    className="z-0 w-full border-b pt-6 pb-6 mb-8 flex flex-nowrap gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap touch-pan-x [&::-webkit-scrollbar]:hidden"
+                    className="z-0 w-full border-b pt-6 pb-8 mb-8 flex flex-nowrap gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap touch-pan-x [&::-webkit-scrollbar]:hidden"
                   >
                     {availableTimes.length === 0 ? (
                       <div className="flex flex-col w-full items-center self-center">
