@@ -107,7 +107,7 @@ const BookItem = ({ booking, isSingle = false, userName }: BookProps) => {
               </div>
             ) : isTomorrow(booking.date) ? (
               <div className="h-full w-[24%] min-w-[24%] max-w-[24%] flex flex-col border-l-2 justify-center items-center">
-                <p className="text-lg font-medium text-primary">Amanhã</p>
+                <p className="text-base font-medium text-primary">Amanhã</p>
                 <p className="text-base">
                   {format(booking.date, "EEE", { locale: ptBR })}
                 </p>

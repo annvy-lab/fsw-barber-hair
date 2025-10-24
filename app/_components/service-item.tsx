@@ -152,7 +152,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
         serviceId: service.id,
         date,
       });
-      toast.success("Agendamento criado com sucesso!");
+      toast.success("Agendamento criado com sucesso");
       setOpenSheet(false);
       resetBookingState(true);
     } catch {
@@ -240,7 +240,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                     </SheetDescription>
                   </SheetHeader>
 
-                  <div className="w-full relative z-10 min-h-[310px] md:min-h-0">
+                  <div className="w-full relative z-10 min-h-[326px] md:min-h-0">
                     <Calendar
                       mode="single"
                       locale={ptBR}

@@ -58,7 +58,7 @@ const Home = async () => {
         </div>
 
         <div className="px-6 mt-6">
-          <div className="relative mt-4 h-[150px] w-full">
+          <div className="relative mt-4 h-[170px] w-full">
             <Image
               alt="Agende nos melhores com FSW Barber"
               src="/banner01.png"
