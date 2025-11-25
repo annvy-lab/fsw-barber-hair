@@ -11,7 +11,7 @@ const Navbar = () => {
     <Card className="w-full rounded-none bg-background">
       <CardContent className="flex justify-between items-center px-6 py-4">
         <Link href="/" className="flex items-center gap-2">
-          <img src="logo.png" alt="logo app" />
+          <img src="logo.png" alt="logo app" height={18} width={120} />
         </Link>
         <Sheet>
           <SheetTrigger asChild>

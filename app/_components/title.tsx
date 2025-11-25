@@ -27,7 +27,7 @@ const Title = () => {
       {/* USER NOT LOGGED IN */}
       {!data?.user && (
         <div className="px-6 my-6 gap-3">
-          <h2 className="text-2xl">Olá, bem-vindo(a)!</h2>
+          <h2 className="text-2xl">Olá, bem-vindo!</h2>
 
           <p>
             {format(new Date(), "EEEE, dd 'de' MMMM", { locale: ptBR }).replace(
